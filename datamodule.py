@@ -36,6 +36,17 @@ class FashionMNISTDataModule(pl.LightningDataModule):
         train_dl = torch.utils.data.DataLoader(self.train_dataset, batch_size=64, sampler=train_sampler)
         return train_dl
     
+    #Used in predict.py
+    def get_test_image(self):
+        # define transforms
+        transform = transforms.Compose([transforms.ToTensor(),
+                                transforms.Normalize((0.5,), (0.5,))])
+        test_dataset = datasets.FashionMNIST(self.data_dir, download=True, train=False, transform=transform)
+        index = 0
+        img, label = test_dataset[index]
+        img = img.view(img.shape[0], -1)
+        return img, label
+    
     def val_dataloader(self):
         val_sampler = torch.utils.data.sampler.SubsetRandomSampler(self.val_idx)
         val_dl = torch.utils.data.DataLoader(self.train_dataset, batch_size=64, sampler=val_sampler)
