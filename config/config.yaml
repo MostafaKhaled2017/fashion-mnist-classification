@@ -1,0 +1,4 @@
+batch_size: 64
+epochs: 3
+optimizer: 'adam'
+lr: 0.003

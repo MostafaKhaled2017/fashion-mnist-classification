@@ -1,0 +1,4 @@
+batch_size: 28
+epochs: 3
+optimizer: sgd
+lr: 0.002

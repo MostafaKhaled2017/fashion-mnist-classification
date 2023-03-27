@@ -7,10 +7,11 @@ from torchmetrics import Accuracy
 import matplotlib.pyplot as plt
 import pytorch_lightning as pl
 
-
 class FashionMNISTDataClassifier(pl.LightningModule):
-    def __init__(self):
+    def __init__(self, cfg):
         super().__init__()
+        self.cfg = cfg
+
         self.network = nn.Sequential(OrderedDict([('fc1', nn.Linear(784, 392)),
                                        ('relu1', nn.ReLU()),
                                        ('drop1', nn.Dropout(0.25)),
@@ -76,7 +77,12 @@ class FashionMNISTDataClassifier(pl.LightningModule):
         self.log('test_acc', self.test_accuracy, prog_bar=True)
     
     def configure_optimizers(self):
-        optimizer = optim.Adam(self.parameters(), lr=0.003)
+        optimizer = None
+        if self.cfg.optimizer == 'adam':
+            optimizer = optim.Adam(self.parameters(), lr=self.cfg.lr)
+        elif optimizer == 'sgd':
+            optimizer = optim.SGD(self.parameters(), lr = self.cfg.lr)
+
         return optimizer
     
     def on_train_epoch_end(self, *args, **kwargs):        
