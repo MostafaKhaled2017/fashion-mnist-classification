@@ -12,18 +12,20 @@ class FashionMNISTDataClassifier(pl.LightningModule):
         super().__init__()
         self.cfg = cfg
 
-        self.network = nn.Sequential(OrderedDict([('fc1', nn.Linear(784, 392)),
+        hidden_units = cfg.hidden_units
+        dropout = cfg.dropout
+        self.network = nn.Sequential(OrderedDict([('fc1', nn.Linear(784, hidden_units[0])),
                                        ('relu1', nn.ReLU()),
-                                       ('drop1', nn.Dropout(0.25)),
-                                       ('fc12', nn.Linear(392, 196)),
+                                       ('drop1', nn.Dropout(dropout)),
+                                       ('fc12', nn.Linear(hidden_units[0], hidden_units[1])),
                                        ('relu2', nn.ReLU()),
                                        ('drop2', nn.Dropout(0.25)),
-                                       ('fc3', nn.Linear(196, 98)),
+                                       ('fc3', nn.Linear(hidden_units[1], hidden_units[2])),
                                        ('relu3', nn.ReLU()),
-                                       ('drop3', nn.Dropout(0.25)),                                       
-                                       ('fc4', nn.Linear(98, 49)),
+                                       ('drop3', nn.Dropout(dropout)),                                       
+                                       ('fc4', nn.Linear(hidden_units[2], hidden_units[3])),
                                        ('relu4', nn.ReLU()),
-                                       ('output', nn.Linear(49, 10)),
+                                       ('output', nn.Linear(hidden_units[3], 10)),
                                        ('logsoftmax', nn.LogSoftmax(dim=1))]))
         self.loss_fn = nn.NLLLoss()
 

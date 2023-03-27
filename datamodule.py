@@ -5,7 +5,7 @@ import numpy as np
 import pytorch_lightning as pl
 
 class FashionMNISTDataModule(pl.LightningDataModule):
-    def __init__(self, data_dir: str = 'F_MNIST_data'):
+    def __init__(self, data_dir: str = "./"):
         super().__init__()
         self.data_dir = data_dir
 
@@ -30,12 +30,6 @@ class FashionMNISTDataModule(pl.LightningDataModule):
 
         if stage == 'test' or stage is None:
             self.test_dataset = datasets.FashionMNIST(self.data_dir, download=True, train=False, transform=transform)
-
-    # Used to initialize the test dataset without calling trainer.test() in predict.py
-    def initialize_test_data(self):
-        transform = transforms.Compose([transforms.ToTensor(),
-                                transforms.Normalize((0.5,), (0.5,))])
-        self.test_dataset = datasets.FashionMNIST(self.data_dir, download=True, train=False, transform=transform)
 
     def train_dataloader(self):
         train_sampler = torch.utils.data.sampler.SubsetRandomSampler(self.train_idx)
