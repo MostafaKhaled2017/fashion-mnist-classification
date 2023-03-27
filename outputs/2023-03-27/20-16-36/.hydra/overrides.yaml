@@ -1,0 +1,4 @@
+- optimizer=adam
+- lr=0.02
+- batch_size=25
+- epochs=1

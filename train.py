@@ -1,8 +1,5 @@
 #Importing main libraries
 import torch
-import torch.nn as nn
-import torch.optim as optim
-from torchvision import datasets, transforms
 import pytorch_lightning as pl
 from pytorch_lightning.callbacks.progress import TQDMProgressBar
 from pytorch_lightning.loggers import CSVLogger

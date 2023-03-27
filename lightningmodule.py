@@ -80,8 +80,10 @@ class FashionMNISTDataClassifier(pl.LightningModule):
         optimizer = None
         if self.cfg.optimizer == 'adam':
             optimizer = optim.Adam(self.parameters(), lr=self.cfg.lr)
-        elif optimizer == 'sgd':
+        elif self.cfg.optimizer == 'sgd':
             optimizer = optim.SGD(self.parameters(), lr = self.cfg.lr)
+        else:
+            raise Exception("Optimizer must be either adam or sgd")
 
         return optimizer
     
